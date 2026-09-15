@@ -13,6 +13,7 @@ export async function getProducts(): Promise<Product[]> {
   return data.products;
 }
 
+//
 
 export async function getProductById(id: string): Promise<Product | null> {
   const res = await fetch(`${BASE_URL}/products/${id}`);
