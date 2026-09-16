@@ -3,7 +3,7 @@
 import { CartItem } from "@/types/product";
 
 import { Product } from "@/types/product";
-
+import { createContext, useContext, useReducer } from "react";
 
 interface CartState {
   items: CartItem[];
@@ -11,8 +11,17 @@ interface CartState {
 
 type CartAction =
   | { type: "ADD_ITEM"; product: Product }
-  | { type: "REMOVE_ITEM"; id: number };
+  | { type: "REMOVE_ITEM"; id: number }
 
+
+interface CartContextValue {
+  items: CartItem[];
+  totalItems: number;
+  addItem: (product: Product) => void;
+  removeItem: (id: number) => void;
+}
+
+const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
@@ -50,3 +59,27 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       return state;
   }
 }
+
+export function useCart(): CartContextValue {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error("useCart debe usarse dentro de un <CartProvider>");
+  }
+  return context;
+}
+
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+
+  const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const value: CartContextValue = {
+    items: state.items,
+    totalItems: totalItems,
+    addItem: (product) => dispatch({ type: "ADD_ITEM", product }),
+    removeItem: (id) => dispatch({ type: "REMOVE_ITEM", id }),
+  };
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+}
+
