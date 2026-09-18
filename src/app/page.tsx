@@ -11,6 +11,7 @@ export default async function Home() {
       <main className="mx-auto max-w-5xl px-6 py-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (<ProductCard key={product.id} product={product} />
           ))}
+          <h1>hola</h1>
       </main>
     </div>
   );

@@ -1,4 +1,5 @@
 import AddToCartButton from "@/components/AddToCartButton";
+import RemoveFromCartButton from "@/components/RemoveFromCartButton";
 import { getProductById } from "@/lib/api";
 import Link from "next/link";
 import Image from "next/image";
@@ -41,6 +42,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
             <div className="mt-4 max-w-xs">
             <AddToCartButton product={product} />
+            <RemoveFromCartButton product={product} />
             </div>
         </div>
         </div>

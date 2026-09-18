@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/types/product";
 import AddToCartButton from "./AddToCartButton";
+import RemoveFromCartButton from "./RemoveFromCartButton";
 
 interface ProductCardProps {
   product: Product;
@@ -27,6 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </Link>
             <div className="mt-2">
             <AddToCartButton product={product} />
+            <RemoveFromCartButton product={product} />
             </div>
         </div>
     );
